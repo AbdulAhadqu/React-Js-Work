@@ -1,7 +1,10 @@
 import React from 'react';
+
 import ReactDOM from 'react-dom';
+import Registration_form from './Components/Registration_form';
+// import Forms from './Components/forms';
 // import WeatherApp from './App';
-import Rendering from './Components/Axios';
+// import Rendering from './Components/Axios';
 // import "./style.css";
 // import Todo_APP from './Todo-APP';
 // import Weather from './Components/weather/showweather.js';
@@ -126,7 +129,7 @@ import Rendering from './Components/Axios';
 
 
 // ReactDOM.render(<Hi/>, document.getElementById('p1'));
-ReactDOM.render(<Rendering/>, document.getElementById('root'));
+ReactDOM.render(<Registration_form/>, document.getElementById('root'));
 
 
 // root.render( <BrowserRouter>

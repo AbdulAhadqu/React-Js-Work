@@ -1,27 +1,80 @@
-// import react , {useState}from 'react';
-//  export default Forms = ({handlesubmit , data})=> {
-//     const [entry , setentry]= useState ("");
-//     return <>
-//     <form onSubmit={handlesubmit}>
-//         <input type="text" 
-//         name= "search"
-//         placeholder='Type Text'
-//         onChange={e => setentry(e.target.value)}
-//         value={entry}
-//         />
-//         <button type='submit'>
-//         <svg height="32" width="32">
-//           <path
-//             d="M19.427 21.427a8.5 8.5 0 1 1 2-2l5.585 5.585c.55.55.546 1.43 0 1.976l-.024.024a1.399 1.399 0 0 1-1.976 0l-5.585-5.585zM14.5 21a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13z"
-//             fill="#ffffff"
-//             fillRule="evenodd"
-//           />
-//         </svg>
-//         </button>
+import React, { useState } from 'react';
+import './forms.css';
+import { auth ,googleProvider} from '../firebaseAuth';
+import { createUserWithEmailAndPassword,signInWithPopup} from "firebase/auth";
 
-       
-//     </form>
-//     </>
-    
-    
-//  }
+export default function Forms() {
+  const [email, setEmail] = useState({Email: "", password : "", Username: ""});
+  // const [password, setPassword] = useState('');
+   async function SignIn(){
+          try{
+            await signInWithPopup(auth,googleProvider)
+          } 
+          catch(err){
+            alert(err)
+          } 
+   }
+  function SignUp(e) {
+    const { name, value } = e.target;
+    if (name === 'email') {
+      setEmail({...email,Email:value})
+      console.log(`${email.Email}`)
+          } else if (name === 'password') {
+            console.log(`${email.password}`)
+            setEmail({...email,password: value})
+          }
+
+ }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      let name = "abdul ahad"
+      await createUserWithEmailAndPassword(auth, email.Email ,email.password,name);
+      alert("SignUp Succesfull");
+      setEmail({});
+      // Update the entry state after successful registration
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  return (
+    <>
+    <div className='main_div'>
+
+      <div className='forms_div'>
+      Sign Up
+      <form onSubmit={handleSubmit} className='form'>
+        <label for="email">Enter email</label>
+        <input
+          type="email"
+          name="email"
+          placeholder='Enter Email'
+          onChange={SignUp}
+          value={email.Email}
+          className='form_inputs'
+        />
+        <br/>
+        <label for="password">Enter Password</label>
+        <input
+          type="password"
+          name="password"
+          placeholder='Password'
+          onChange={SignUp}
+          value={email.password}
+          className='form_inputs'
+
+        />
+        <br/>
+        <button type='submit'className='form_button'>
+         Sign Up
+        </button><br/>
+        <button onClick={SignIn} className='form_button'>LogIn With Google</button>
+
+      </form>
+      </div>
+      </div>
+    </>
+  );
+}
